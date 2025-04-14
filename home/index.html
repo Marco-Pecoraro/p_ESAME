@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inboxit - Email Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-app">
+        <!-- Overlay per sfondo opaco -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Titolo Inboxit -->
+        <header class="app-header">
+            <h1 class="app-title">Inboxit</h1>
+            <div class="header-actions">
+                <button class="compose-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                        <path d="M4 20h16M4 4h16M4 4v16M20 4v16M8 4l8 8-8 8" />
+                    </svg>
+                    <span>Nuovo messaggio</span>
+                </button>
+                <button class="settings-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 0v3m0-12V6m-3 3H6m12 0h-3m-4.5 4.5l-1.5 1.5m0-6l1.5 1.5m-1.5 1.5l1.5 1.5m4.5-4.5l1.5 1.5" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigazione Categorie -->
+        <nav class="email-nav">
+            <ul>
+                <li class="active" data-category="inbox">In Arrivo</li>
+                <li data-category="important">Importanti</li>
+                <li data-category="meetings">Meetings</li>
+                <li data-category="sent">Inviate</li>
+                <li data-category="trash">Cestino</li>
+                <li data-category="calendar">Calendario</li>
+            </ul>
+        </nav>
+
+        <!-- Contenitore principale -->
+        <div class="content">
+            <!-- Lista Email -->
+            <div class="email-list" id="emailList">
+                <!-- Intestazione -->
+                <div class="email-header">
+                    <div class="email-sender">Mittente</div>
+                    <div class="email-subject">Oggetto</div>
+                    <div class="email-preview">Corpo</div>
+                    <div class="email-time">Data</div>
+                </div>
+                <!-- Email -->
+                <div class="email-item" data-category="inbox">
+                    <div class="email-sender">John Doe</div>
+                    <div class="email-subject">Meeting Tomorrow</div>
+                    <div class="email-preview">Hi, let's schedule a meeting for tomorrow at 10 AM...</div>
+                    <div class="email-time">9:30 AM</div>
+                </div>
+                <div class="email-item" data-category="inbox meetings">
+                    <div class="email-sender">Alice Smith</div>
+                    <div class="email-subject">Project Update</div>
+                    <div class="email-preview">Here's the latest update on the project timeline...</div>
+                    <div class="email-time">Yesterday</div>
+                </div>
+                <div class="email-item" data-category="inbox important">
+                    <div class="email-sender">Marketing Team</div>
+                    <div class="email-subject">New Campaign Launch</div>
+                    <div class="email-preview">We’re launching the new campaign next week...</div>
+                    <div class="email-time">2 days ago</div>
+                </div>
+                <div class="email-item" data-category="sent">
+                    <div class="email-sender">You</div>
+                    <div class="email-subject">Re: Project Update</div>
+                    <div class="email-preview">Thanks for the update, I’ve scheduled a follow-up...</div>
+                    <div class="email-time">3 days ago</div>
+                </div>
+                <div class="email-item" data-category="trash">
+                    <div class="email-sender">Spam Bot</div>
+                    <div class="email-subject">You’ve Won a Prize!</div>
+                    <div class="email-preview">Click here to claim your prize...</div>
+                    <div class="email-time">1 week ago</div>
+                </div>
+            </div>
+
+            <!-- Calendario (generato da JS) -->
+            <div class="calendar-section" id="calendarSection">
+                <h2>Calendario</h2>
+                <div class="calendar" id="calendar">
+                    <div class="calendar-header">
+                        <button class="calendar-nav prev">←</button>
+                        <span class="calendar-month" id="calendarMonth"></span>
+                        <button class="calendar-nav next">→</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <div class="calendar-day">Dom</div>
+                        <div class="calendar-day">Lun</div>
+                        <div class="calendar-day">Mar</div>
+                        <div class="calendar-day">Mer</div>
+                        <div class="calendar-day">Gio</div>
+                        <div class="calendar-day">Ven</div>
+                        <div class="calendar-day">Sab</div>
+                    </div>
+                </div>
+                <div class="events" id="eventsList">
+                    <h3>Eventi</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schermata per comporre una nuova email -->
+        <div class="compose-modal" id="composeModal">
+            <div class="compose-header">
+                <h3>Nuova Email</h3>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="compose-body">
+                <input type="text" placeholder="A" class="compose-input">
+                <input type="text" placeholder="Oggetto" class="compose-subject">
+                <textarea placeholder="Scrivi il tuo messaggio..." class="compose-text"></textarea>
+            </div>
+            <div class="compose-footer">
+                <button class="send-btn">Invia</button>
+            </div>
+        </div>
+
+        <!-- Schermata per le impostazioni -->
+        <div class="settings-modal" id="settingsModal">
+            <div class="settings-header">
+                <h3>Impostazioni</h3>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="settings-body">
+                <div class="settings-item">
+                    <label>Abilita notifiche</label>
+                    <input type="checkbox" checked>
+                </div>
+                <div class="settings-item">
+                    <label>Tema scuro</label>
+                    <input type="checkbox">
+                </div>
+                <div class="settings-item">
+                    <label>Lingua</label>
+                    <select>
+                        <option>Italiano</option>
+                        <option>English</option>
+                    </select>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="save-btn">Salva</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
