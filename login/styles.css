@@ -1,0 +1,389 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    overflow: auto;
+}
+
+/* Nascondi scrollbar quando il form è attivo */
+body.no-scroll {
+    overflow: hidden;
+}
+
+/* Spazio per consentire lo scroll */
+.scroll-space {
+    height: 150vh;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Scroll Down Section */
+.scroll-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    opacity: 0;
+}
+
+.scroll-down.vortex {
+    animation: vortex 1.5s ease forwards;
+}
+
+.scroll-down .text {
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 10px;
+    pointer-events: none;
+}
+
+.scroll-down .arrow-circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.scroll-down .arrow-circle .arrow {
+    animation: arrowMove 1.5s infinite ease-in-out;
+    transition: stroke 0.3s ease;
+}
+
+.scroll-down .arrow-circle::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    background: #000;
+    border-radius: 50%;
+    transition: all 0.5s ease;
+}
+
+.scroll-down .sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.scroll-down:hover {
+    transform: translateX(10px);
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+.scroll-down:hover .arrow-circle {
+    transform: scale(1.1);
+}
+
+.scroll-down:hover .arrow-circle::before {
+    width: 100%;
+    height: 100%;
+}
+
+.scroll-down:hover .arrow-circle .arrow {
+    stroke: #fff; /* La freccia è bianca solo durante l'hover */
+    animation: arrowWiggle 0.5s ease;
+}
+
+.scroll-down:hover .sparkle {
+    opacity: 1;
+    animation: sparkle 1s infinite;
+}
+
+.scroll-down .particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.hide-scroll .particles::before,
+.hide-scroll .particles::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #000;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: particleDissolve 1s ease forwards;
+}
+
+.hide-scroll .particles::before {
+    top: 0;
+    left: 30%;
+    animation-delay: 0.1s;
+}
+
+.hide-scroll .particles::after {
+    top: 10%;
+    left: 60%;
+    animation-delay: 0.3s;
+}
+
+/* Login Form */
+.login-form {
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(100vh);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    max-width: 400px;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente gli elementi */
+    min-height: 300px; /* Altezza minima per bilanciare lo spazio */
+}
+
+.login-form.active {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    animation: bounceIn 0.8s ease-out;
+}
+
+.login-form .reveal-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    transform: translateY(-100%);
+    transition: transform 0.8s ease;
+}
+
+.login-form.active .reveal-wave {
+    transform: translateY(100%);
+}
+
+.login-form .form-title,
+.login-form .form-subtitle,
+.login-form .google-btn,
+.login-form .dynamic-text {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    text-align: center;
+}
+
+.login-form.active .form-title {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: zoomIn 0.5s ease;
+    transition-delay: 0.1s;
+}
+
+.login-form.active .form-subtitle {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+}
+
+.login-form.active .google-btn {
+    opacity: 1;
+    transform: translateY(0);
+    animation: buttonBounce 0.5s ease;
+    transition-delay: 0.3s;
+}
+
+.login-form.active .dynamic-text {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.4s;
+    animation: typeText 1s steps(20) forwards;
+}
+
+.login-form h2 {
+    font-size: 28px;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.login-form h3 {
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.google-btn {
+    position: relative;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin: 20px auto; /* Margine per centrarlo meglio verticalmente */
+}
+
+.google-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+.google-btn:hover svg {
+    stroke: #fff;
+}
+
+.google-btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: #000;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: rippleEffect 0.8s ease-out;
+}
+
+.google-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    animation: loadingWave 1s infinite;
+}
+
+.dynamic-text {
+    font-size: 12px;
+    color: #000;
+    margin-top: 20px;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Animazioni */
+@keyframes vortex {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.5) rotate(360deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(720deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes arrowMove {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+}
+
+@keyframes sparkle {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    50% { transform: translate(10px, -10px) scale(1.5); opacity: 0.5; }
+    100% { transform: translate(20px, -20px) scale(1); opacity: 0; }
+}
+
+@keyframes particleDissolve {
+    0% { transform: translate(0, 0); opacity: 0.5; }
+    100% { transform: translate(20px, 50px); opacity: 0; }
+}
+
+@keyframes arrowWiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    75% { transform: rotate(-10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes bounceIn {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    60% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    80% { transform: translate(-50%, -50%) scale(0.95); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes zoomIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes buttonBounce {
+    0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+    50% { transform: translateY(0) scale(1.1); opacity: 1; }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes typeText {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes rippleEffect {
+    0% { width: 0; height: 0; opacity: 0.5; }
+    50% { opacity: 0.3; }
+    100% { width: 300px; height: 300px; opacity: 0; }
+}
+
+@keyframes loadingWave {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes fadeText {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.hide-scroll {
+    transform: translateY(100vh) rotate(10deg) !important;
+    opacity: 0;
+    transition: all 0.8s ease;
+}
