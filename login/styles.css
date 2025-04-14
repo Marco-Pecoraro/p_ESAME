@@ -5,17 +5,33 @@
 }
 
 body {
-    background: #fff;
+    background: #f5f5f5;
     font-family: 'Inter', sans-serif;
     overflow: auto;
+    transition: background 0.3s, color 0.3s;
+    /* Rimuovo la scrollbar per tutti i browser */
+    overflow-y: scroll;
+    /* Permette lo scroll */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer e Edge */
 }
 
-/* Nascondi scrollbar quando il form è attivo */
+body::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari e Opera */
+}
+
+body.dark {
+    background: #1a1a1a;
+    color: #ddd;
+}
+
 body.no-scroll {
     overflow: hidden;
 }
 
-/* Spazio per consentire lo scroll */
 .scroll-space {
     height: 150vh;
 }
@@ -50,6 +66,12 @@ body.no-scroll {
     color: #000;
     margin-bottom: 10px;
     pointer-events: none;
+    text-align: center;
+    line-height: 1.2;
+}
+
+body.dark .scroll-down .text {
+    color: #fff;
 }
 
 .scroll-down .arrow-circle {
@@ -62,13 +84,24 @@ body.no-scroll {
     align-items: center;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     pointer-events: none;
+}
+
+body.dark .scroll-down .arrow-circle {
+    border-color: #fff;
 }
 
 .scroll-down .arrow-circle .arrow {
     animation: arrowMove 1.5s infinite ease-in-out;
     transition: stroke 0.3s ease;
+    stroke: #000;
+    position: relative;
+    z-index: 2;
+}
+
+body.dark .scroll-down .arrow-circle .arrow {
+    stroke: #fff;
 }
 
 .scroll-down .arrow-circle::before {
@@ -78,7 +111,12 @@ body.no-scroll {
     height: 0;
     background: #000;
     border-radius: 50%;
-    transition: all 0.5s ease;
+    transition: width 0.5s ease, height 0.5s ease;
+    z-index: 1;
+}
+
+body.dark .scroll-down .arrow-circle::before {
+    background: #fff;
 }
 
 .scroll-down .sparkle {
@@ -91,9 +129,17 @@ body.no-scroll {
     transition: all 0.3s ease;
 }
 
+body.dark .scroll-down .sparkle {
+    background: #fff;
+}
+
 .scroll-down:hover {
     transform: translateX(10px);
     filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+body.dark .scroll-down:hover {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
 .scroll-down:hover .arrow-circle {
@@ -106,7 +152,7 @@ body.no-scroll {
 }
 
 .scroll-down:hover .arrow-circle .arrow {
-    stroke: #fff; /* La freccia è bianca solo durante l'hover */
+    stroke: #fff;
     animation: arrowWiggle 0.5s ease;
 }
 
@@ -134,6 +180,11 @@ body.no-scroll {
     animation: particleDissolve 1s ease forwards;
 }
 
+body.dark .hide-scroll .particles::before,
+body.dark .hide-scroll .particles::after {
+    background: #fff;
+}
+
 .hide-scroll .particles::before {
     top: 0;
     left: 30%;
@@ -150,45 +201,36 @@ body.no-scroll {
 .login-form {
     background: #fff;
     border: 1px solid #000;
-    border-radius: 20px;
-    padding: 40px;
+    border-radius: 15px;
+    padding: 30px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     opacity: 0;
-    transform: translateY(100vh);
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    overflow: hidden;
     max-width: 400px;
-    width: 100%;
+    width: 90%;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra verticalmente gli elementi */
-    min-height: 300px; /* Altezza minima per bilanciare lo spazio */
+    justify-content: center;
+    min-height: 300px;
+    max-height: 80vh;
+    transition: all 0.5s ease;
+}
+
+body.dark .login-form {
+    background: #222;
+    border-color: #555;
+    color: #ddd;
 }
 
 .login-form.active {
     opacity: 1;
     transform: translate(-50%, -50%);
-    animation: bounceIn 0.8s ease-out;
-}
-
-.login-form .reveal-wave {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    transform: translateY(-100%);
-    transition: transform 0.8s ease;
-}
-
-.login-form.active .reveal-wave {
-    transform: translateY(100%);
+    animation: modalPop 0.5s ease;
 }
 
 .login-form .form-title,
@@ -198,13 +240,11 @@ body.no-scroll {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.5s ease;
-    text-align: center;
 }
 
 .login-form.active .form-title {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    animation: zoomIn 0.5s ease;
+    transform: translateY(0);
     transition-delay: 0.1s;
 }
 
@@ -217,7 +257,6 @@ body.no-scroll {
 .login-form.active .google-btn {
     opacity: 1;
     transform: translateY(0);
-    animation: buttonBounce 0.5s ease;
     transition-delay: 0.3s;
 }
 
@@ -225,52 +264,73 @@ body.no-scroll {
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0.4s;
-    animation: typeText 1s steps(20) forwards;
 }
 
-.login-form h2 {
+.login-form .form-title {
     font-size: 28px;
+    font-weight: 600;
     color: #000;
-    margin-bottom: 8px;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.login-form h3 {
+body.dark .login-form .form-title {
+    color: #fff;
+}
+
+.login-form .form-title:hover {
+    transform: scale(1.1);
+    /* Ingrandimento del 10% */
+}
+
+.login-form .form-subtitle {
     font-size: 20px;
+    font-weight: 500;
     color: #000;
     margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+body.dark .login-form .form-subtitle {
+    color: #ddd;
 }
 
 .google-btn {
     position: relative;
-    background: #fff;
-    border: 1px solid #000;
-    border-radius: 15px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
     padding: 12px 24px;
     font-size: 16px;
-    color: #000;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    margin: 20px auto; /* Margine per centrarlo meglio verticalmente */
+    margin: 20px auto;
+}
+
+body.dark .google-btn {
+    background: #444;
 }
 
 .google-btn:hover {
-    background: #000;
-    color: #fff;
+    background: #333;
+    transform: scale(1.05);
 }
 
-.google-btn:hover svg {
-    stroke: #fff;
+body.dark .google-btn:hover {
+    background: #555;
 }
 
 .google-btn .ripple {
     position: absolute;
     border-radius: 50%;
-    background: #000;
+    background: rgba(255, 255, 255, 0.3);
     width: 0;
     height: 0;
     transform: translate(-50%, -50%);
@@ -291,10 +351,10 @@ body.no-scroll {
     font-size: 12px;
     color: #000;
     margin-top: 20px;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-    white-space: nowrap;
-    overflow: hidden;
+}
+
+body.dark .dynamic-text {
+    color: #ddd;
 }
 
 /* Animazioni */
@@ -303,87 +363,151 @@ body.no-scroll {
         opacity: 0;
         transform: scale(0) rotate(0deg);
     }
+
     50% {
         opacity: 0.5;
         transform: scale(1.5) rotate(360deg);
     }
+
     100% {
         opacity: 1;
         transform: scale(1) rotate(720deg);
     }
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
 @keyframes arrowMove {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(5px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(5px);
+    }
 }
 
 @keyframes sparkle {
-    0% { transform: translate(0, 0) scale(1); opacity: 1; }
-    50% { transform: translate(10px, -10px) scale(1.5); opacity: 0.5; }
-    100% { transform: translate(20px, -20px) scale(1); opacity: 0; }
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translate(10px, -10px) scale(1.5);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(20px, -20px) scale(1);
+        opacity: 0;
+    }
 }
 
 @keyframes particleDissolve {
-    0% { transform: translate(0, 0); opacity: 0.5; }
-    100% { transform: translate(20px, 50px); opacity: 0; }
+    0% {
+        transform: translate(0, 0);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translate(20px, 50px);
+        opacity: 0;
+    }
 }
 
 @keyframes arrowWiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(10deg); }
-    75% { transform: rotate(-10deg); }
-    100% { transform: rotate(0deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(10deg);
+    }
+
+    75% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
-@keyframes bounceIn {
-    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-    60% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-    80% { transform: translate(-50%, -50%) scale(0.95); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
+@keyframes modalPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
 
-@keyframes zoomIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
+    60% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 1;
+    }
 
-@keyframes buttonBounce {
-    0% { transform: translateY(20px) scale(0.8); opacity: 0; }
-    50% { transform: translateY(0) scale(1.1); opacity: 1; }
-    100% { transform: translateY(0) scale(1); }
-}
-
-@keyframes typeText {
-    0% { width: 0; }
-    100% { width: 100%; }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @keyframes rippleEffect {
-    0% { width: 0; height: 0; opacity: 0.5; }
-    50% { opacity: 0.3; }
-    100% { width: 300px; height: 300px; opacity: 0; }
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        width: 300px;
+        height: 300px;
+        opacity: 0;
+    }
 }
 
 @keyframes loadingWave {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
+    0% {
+        transform: translateX(-100%);
+    }
 
-@keyframes fadeText {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .hide-scroll {
     transform: translateY(100vh) rotate(10deg) !important;
     opacity: 0;
     transition: all 0.8s ease;
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        padding: 20px;
+        min-height: 250px;
+    }
+
+    .login-form .form-title {
+        font-size: 24px;
+    }
+
+    .login-form .form-subtitle {
+        font-size: 18px;
+    }
+
+    .google-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .dynamic-text {
+        font-size: 10px;
+    }
+
+    .scroll-down .text {
+        font-size: 18px;
+    }
 }
