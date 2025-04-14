@@ -1,92 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inboxit - Email Management</title>
+    <title>inboxit > In Arrivo</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="main-app">
-        <!-- Overlay per sfondo opaco -->
         <div class="overlay" id="overlay"></div>
-
-        <!-- Titolo Inboxit -->
         <header class="app-header">
-            <h1 class="app-title">Inboxit</h1>
+            <h1 class="app-title">inboxit</h1>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Cerca in In Arrivo">
+            </div>
             <div class="header-actions">
                 <button class="compose-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                        <path d="M4 20h16M4 4h16M4 4v16M20 4v16M8 4l8 8-8 8" />
-                    </svg>
                     <span>Nuovo messaggio</span>
                 </button>
-                <button class="settings-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
-                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 0v3m0-12V6m-3 3H6m12 0h-3m-4.5 4.5l-1.5 1.5m0-6l1.5 1.5m-1.5 1.5l1.5 1.5m4.5-4.5l1.5 1.5" />
-                    </svg>
-                </button>
+                <button class="settings-btn">Impostazioni</button>
             </div>
         </header>
-
-        <!-- Navigazione Categorie -->
         <nav class="email-nav">
             <ul>
-                <li class="active" data-category="inbox">In Arrivo</li>
-                <li data-category="important">Importanti</li>
-                <li data-category="meetings">Meetings</li>
-                <li data-category="sent">Inviate</li>
-                <li data-category="trash">Cestino</li>
-                <li data-category="calendar">Calendario</li>
+                <li class="active" data-category="inbox">In Arrivo <span class="email-count"
+                        style="display: none;">0</span></li>
+                <li data-category="important">Importanti <span class="email-count" style="display: none;">0</span></li>
+                <li data-category="meetings">Meetings <span class="email-count" style="display: none;">0</span></li>
+                <li data-category="sent">Inviate <span class="email-count" style="display: none;">0</span></li>
+                <li data-category="trash">Cestino <span class="email-count" style="display: none;">0</span></li>
+                <li data-category="calendar">Calendario <span class="email-count" style="display: none;">0</span></li>
             </ul>
         </nav>
-
-        <!-- Contenitore principale -->
         <div class="content">
-            <!-- Lista Email -->
             <div class="email-list" id="emailList">
-                <!-- Intestazione -->
                 <div class="email-header">
                     <div class="email-sender">Mittente</div>
                     <div class="email-subject">Oggetto</div>
                     <div class="email-preview">Corpo</div>
                     <div class="email-time">Data</div>
                 </div>
-                <!-- Email -->
-                <div class="email-item" data-category="inbox">
-                    <div class="email-sender">John Doe</div>
-                    <div class="email-subject">Meeting Tomorrow</div>
-                    <div class="email-preview">Hi, let's schedule a meeting for tomorrow at 10 AM...</div>
-                    <div class="email-time">9:30 AM</div>
+                <div class="email-item" data-category="inbox" data-sender="Giovanni Rossi"
+                    data-subject="Riunione Domani"
+                    data-body="Ciao, organizziamo una riunione per domani alle 10:00. Puoi confermare la tua disponibilità?"
+                    data-time="9:30">
+                    <div class="email-sender">Giovanni Rossi</div>
+                    <div class="email-subject">Riunione Domani</div>
+                    <div class="email-preview">Ciao, organizziamo una riunione per domani alle 10:00...</div>
+                    <div class="email-time">9:30</div>
                 </div>
-                <div class="email-item" data-category="inbox meetings">
-                    <div class="email-sender">Alice Smith</div>
-                    <div class="email-subject">Project Update</div>
-                    <div class="email-preview">Here's the latest update on the project timeline...</div>
-                    <div class="email-time">Yesterday</div>
+                <div class="email-item" data-category="inbox meetings" data-sender="Alice Verdi"
+                    data-subject="Aggiornamento Progetto"
+                    data-body="Ecco l'ultimo aggiornamento sulla timeline del progetto. Abbiamo fatto grandi progressi questa settimana."
+                    data-time="Ieri">
+                    <div class="email-sender">Alice Verdi</div>
+                    <div class="email-subject">Aggiornamento Progetto</div>
+                    <div class="email-preview">Ecco l'ultimo aggiornamento sulla timeline del progetto...</div>
+                    <div class="email-time">Ieri</div>
                 </div>
-                <div class="email-item" data-category="inbox important">
-                    <div class="email-sender">Marketing Team</div>
-                    <div class="email-subject">New Campaign Launch</div>
-                    <div class="email-preview">We’re launching the new campaign next week...</div>
-                    <div class="email-time">2 days ago</div>
+                <div class="email-item" data-category="inbox important" data-sender="Team Marketing"
+                    data-subject="Lancio Nuova Campagna"
+                    data-body="Lanceremo la nuova campagna la prossima settimana. Ti prego di rivedere i materiali allegati."
+                    data-time="2 giorni fa">
+                    <div class="email-sender">Team Marketing</div>
+                    <div class="email-subject">Lancio Nuova Campagna</div>
+                    <div class="email-preview">Lanceremo la nuova campagna la prossima settimana...</div>
+                    <div class="email-time">2 giorni fa</div>
                 </div>
-                <div class="email-item" data-category="sent">
-                    <div class="email-sender">You</div>
-                    <div class="email-subject">Re: Project Update</div>
-                    <div class="email-preview">Thanks for the update, I’ve scheduled a follow-up...</div>
-                    <div class="email-time">3 days ago</div>
+                <div class="email-item" data-category="sent" data-sender="Tu" data-subject="Re: Aggiornamento Progetto"
+                    data-body="Grazie per l'aggiornamento, ho programmato una riunione di follow-up per la prossima settimana."
+                    data-time="3 giorni fa">
+                    <div class="email-sender">Tu</div>
+                    <div class="email-subject">Re: Aggiornamento Progetto</div>
+                    <div class="email-preview">Grazie per l'aggiornamento, ho programmato una riunione...</div>
+                    <div class="email-time">3 giorni fa</div>
                 </div>
-                <div class="email-item" data-category="trash">
+                <div class="email-item" data-category="trash" data-sender="Spam Bot" data-subject="Hai Vinto un Premio!"
+                    data-body="Clicca qui per reclamare il tuo premio! Non perdere questa fantastica offerta."
+                    data-time="1 settimana fa">
                     <div class="email-sender">Spam Bot</div>
-                    <div class="email-subject">You’ve Won a Prize!</div>
-                    <div class="email-preview">Click here to claim your prize...</div>
-                    <div class="email-time">1 week ago</div>
+                    <div class="email-subject">Hai Vinto un Premio!</div>
+                    <div class="email-preview">Clicca qui per reclamare il tuo premio...</div>
+                    <div class="email-time">1 settimana fa</div>
                 </div>
             </div>
-
-            <!-- Calendario (generato da JS) -->
             <div class="calendar-section" id="calendarSection">
                 <h2>Calendario</h2>
                 <div class="calendar" id="calendar">
@@ -110,8 +110,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Schermata per comporre una nuova email -->
         <div class="compose-modal" id="composeModal">
             <div class="compose-header">
                 <h3>Nuova Email</h3>
@@ -126,36 +124,93 @@
                 <button class="send-btn">Invia</button>
             </div>
         </div>
-
-        <!-- Schermata per le impostazioni -->
         <div class="settings-modal" id="settingsModal">
             <div class="settings-header">
                 <h3>Impostazioni</h3>
                 <button class="close-btn">×</button>
             </div>
             <div class="settings-body">
-                <div class="settings-item">
-                    <label>Abilita notifiche</label>
-                    <input type="checkbox" checked>
+                <div class="settings-section">
+                    <h4>Generali</h4>
+                    <div class="settings-item">
+                        <label>Abilita notifiche <input type="checkbox" id="notifications" checked></label>
+                    </div>
+                    <div class="settings-item">
+                        <label>Tema scuro <input type="checkbox" id="darkTheme"></label>
+                    </div>
+                    <div class="settings-item">
+                        <label>Mostra conteggio email <input type="checkbox" id="showEmailCount" checked></label>
+                    </div>
+                    <div class="settings-item">
+                        <label>Lingua</label>
+                        <select id="language">
+                            <option>Italiano</option>
+                            <option>English</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="settings-item">
-                    <label>Tema scuro</label>
-                    <input type="checkbox">
+                <div class="settings-section account-section">
+                    <h4>Account</h4>
+                    <div class="account-info">
+                        <div class="account-item">
+                            <span>Nome:</span>
+                            <input type="text" value="Utente Esempio" id="accountName">
+                        </div>
+                        <div class="account-item">
+                            <span>Email:</span>
+                            <input type="email" value="utente@esempio.com" id="accountEmail">
+                        </div>
+                        <div class="account-item">
+                            <span>Password:</span>
+                            <input type="password" value="********" id="accountPassword">
+                        </div>
+                    </div>
+                    <button class="save-account-btn">Salva modifiche</button>
+                    <button class="logout-btn">Logout</button>
                 </div>
-                <div class="settings-item">
-                    <label>Lingua</label>
-                    <select>
-                        <option>Italiano</option>
-                        <option>English</option>
-                    </select>
+                <div class="settings-section info-section">
+                    <h4>Informazioni</h4>
+                    <p>Versione: 1.01</p>
+                    <p>Copyright © 2025 inboxit. Tutti i diritti riservati.</p>
                 </div>
             </div>
             <div class="settings-footer">
                 <button class="save-btn">Salva</button>
             </div>
         </div>
+        <div class="event-modal" id="eventModal">
+            <div class="event-header">
+                <h3>Aggiungi Evento</h3>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="event-body">
+                <input type="text" id="eventTitle" placeholder="Titolo evento">
+                <input type="date" id="eventDate">
+                <input type="time" id="eventTime">
+            </div>
+            <div class="event-footer">
+                <button class="add-event-btn">Aggiungi</button>
+            </div>
+        </div>
+        <div class="email-preview-modal" id="emailPreviewModal">
+            <div class="email-preview-header">
+                <h3 id="previewSubject"></h3>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="email-preview-body">
+                <p><strong>Mittente:</strong> <span id="previewSender"></span></p>
+                <p><strong>Data:</strong> <span id="previewTime"></span></p>
+                <p><strong>Corpo:</strong></p>
+                <p id="previewBody"></p>
+            </div>
+            <div class="email-preview-footer">
+                <button class="delete-btn">Elimina</button>
+                <button class="reply-btn">Rispondi</button>
+                <button class="ai-reply-btn">Rispondi con AI</button>
+            </div>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
+
 </html>

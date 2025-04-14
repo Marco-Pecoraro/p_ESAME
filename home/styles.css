@@ -7,10 +7,14 @@
 body {
     background: #f5f5f5;
     font-family: 'Inter', sans-serif;
-    overflow: auto;
+    transition: background 0.3s, color 0.3s;
 }
 
-/* Overlay per sfondo opaco */
+body.dark {
+    background: #1a1a1a;
+    color: #ddd;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -29,23 +33,21 @@ body {
     pointer-events: auto;
 }
 
-/* Main App */
 .main-app {
     width: 100%;
-    max-width: 1600px;
-    /* Aumentato per bordi più stretti */
+    max-width: 2400px;
     margin: 0 auto;
-    padding: 5px;
-    /* Ridotto per bordi più stretti */
+    padding: 1px;
 }
 
-/* Header con titolo e pulsanti */
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
     margin-bottom: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .app-title {
@@ -55,6 +57,11 @@ body {
     position: relative;
     display: inline-block;
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+body.dark .app-title {
+    color: #fff;
 }
 
 .app-title::after {
@@ -68,8 +75,42 @@ body {
     transition: width 0.3s ease;
 }
 
+body.dark .app-title::after {
+    background: #fff;
+}
+
 .app-title:hover::after {
     width: 100%;
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 400px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+body.dark #searchInput {
+    background: #333;
+    color: #ddd;
+    border-color: #555;
+}
+
+#searchInput:focus {
+    border-color: #000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+body.dark #searchInput:focus {
+    border-color: #fff;
 }
 
 .header-actions {
@@ -92,9 +133,20 @@ body {
     transition: all 0.3s ease;
 }
 
+body.dark .compose-btn {
+    background: #444;
+}
+
 .settings-btn {
     background: #fff;
     border: 1px solid #000;
+    color: #000;
+}
+
+body.dark .settings-btn {
+    background: #333;
+    border-color: #555;
+    color: #ddd;
 }
 
 .compose-btn:hover,
@@ -103,11 +155,18 @@ body {
     transform: scale(1.05);
 }
 
+body.dark .compose-btn:hover {
+    background: #555;
+}
+
 .settings-btn:hover {
     background: #f0f0f0;
 }
 
-/* Navigazione Categorie */
+body.dark .settings-btn:hover {
+    background: #444;
+}
+
 .email-nav {
     background: #fff;
     border-bottom: 1px solid #ddd;
@@ -116,6 +175,11 @@ body {
     top: 0;
     z-index: 1;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+body.dark .email-nav {
+    background: #222;
+    border-bottom-color: #444;
 }
 
 .email-nav ul {
@@ -127,6 +191,9 @@ body {
 }
 
 .email-nav li {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     padding: 8px 15px;
     font-size: 16px;
     color: #333;
@@ -135,8 +202,16 @@ body {
     border-radius: 20px;
 }
 
+body.dark .email-nav li {
+    color: #ddd;
+}
+
 .email-nav li:hover {
     background: #e0e0e0;
+}
+
+body.dark .email-nav li:hover {
+    background: #444;
 }
 
 .email-nav li.active {
@@ -144,17 +219,26 @@ body {
     color: #fff;
 }
 
-/* Contenitore principale */
+body.dark .email-nav li.active {
+    background: #555;
+}
+
+.email-count {
+    background: #ff4444;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 50%;
+}
+
 .content {
     position: relative;
 }
 
-/* Lista Email */
 .email-list {
     margin-top: 20px;
 }
 
-/* Intestazione della lista email */
 .email-header {
     display: flex;
     align-items: center;
@@ -163,6 +247,12 @@ body {
     border-bottom: 1px solid #ddd;
     font-weight: 600;
     color: #666;
+}
+
+body.dark .email-header {
+    background: #333;
+    border-bottom-color: #555;
+    color: #aaa;
 }
 
 .email-item {
@@ -176,6 +266,11 @@ body {
     transform: translateY(10px);
     animation: fadeIn 0.5s ease forwards;
     cursor: pointer;
+}
+
+body.dark .email-item {
+    background: #222;
+    border-bottom-color: #444;
 }
 
 .email-item:nth-child(2) {
@@ -204,16 +299,28 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+body.dark .email-item:hover {
+    background: #333;
+}
+
 .email-sender {
     font-weight: 600;
     width: 20%;
     color: #333;
 }
 
+body.dark .email-sender {
+    color: #ddd;
+}
+
 .email-subject {
     font-weight: 500;
     width: 30%;
     color: #000;
+}
+
+body.dark .email-subject {
+    color: #fff;
 }
 
 .email-preview {
@@ -224,13 +331,20 @@ body {
     text-overflow: ellipsis;
 }
 
+body.dark .email-preview {
+    color: #aaa;
+}
+
 .email-time {
     color: #999;
     width: 10%;
     text-align: right;
 }
 
-/* Calendario */
+body.dark .email-time {
+    color: #888;
+}
+
 .calendar-section {
     margin-top: 20px;
     background: #fff;
@@ -240,9 +354,17 @@ body {
     display: none;
 }
 
+body.dark .calendar-section {
+    background: #222;
+}
+
 .calendar-section h2 {
     font-size: 20px;
     margin-bottom: 15px;
+}
+
+body.dark .calendar-section h2 {
+    color: #ddd;
 }
 
 .calendar {
@@ -254,11 +376,22 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+body.dark .calendar-header {
+    background: #333;
 }
 
 .calendar-month {
     font-size: 18px;
     font-weight: 600;
+}
+
+body.dark .calendar-month {
+    color: #ddd;
 }
 
 .calendar-nav {
@@ -267,11 +400,20 @@ body {
     font-size: 18px;
     cursor: pointer;
     padding: 5px 10px;
+    transition: all 0.3s ease;
+}
+
+body.dark .calendar-nav {
+    color: #ddd;
 }
 
 .calendar-nav:hover {
-    background: #f0f0f0;
+    background: #e0e0e0;
     border-radius: 5px;
+}
+
+body.dark .calendar-nav:hover {
+    background: #444;
 }
 
 .calendar-grid {
@@ -279,26 +421,51 @@ body {
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
     text-align: center;
+    background: #fafafa;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+body.dark .calendar-grid {
+    background: #2a2a2a;
 }
 
 .calendar-day {
     font-weight: 600;
     color: #666;
     padding: 8px 0;
+    background: #fff;
+    border-radius: 5px;
+}
+
+body.dark .calendar-day {
+    color: #aaa;
+    background: #222;
 }
 
 .calendar-date {
     padding: 8px;
     border-radius: 5px;
     transition: all 0.3s ease;
+    background: #fff;
+    cursor: pointer;
+}
+
+body.dark .calendar-date {
+    background: #222;
 }
 
 .calendar-date:hover {
-    background: #f0f0f0;
+    background: #e0e0e0;
+}
+
+body.dark .calendar-date:hover {
+    background: #444;
 }
 
 .calendar-date.empty {
     background: none;
+    cursor: default;
 }
 
 .calendar-date.today {
@@ -306,9 +473,17 @@ body {
     color: #fff;
 }
 
+body.dark .calendar-date.today {
+    background: #555;
+}
+
 .calendar-date.event {
-    background: #e0e0e0;
+    background: #d0d0d0;
     position: relative;
+}
+
+body.dark .calendar-date.event {
+    background: #444;
 }
 
 .calendar-date.event::after {
@@ -323,6 +498,10 @@ body {
     border-radius: 50%;
 }
 
+body.dark .calendar-date.event::after {
+    background: #fff;
+}
+
 .events {
     margin-top: 20px;
 }
@@ -332,16 +511,34 @@ body {
     margin-bottom: 10px;
 }
 
+body.dark .events h3 {
+    color: #ddd;
+}
+
 .event-item {
     padding: 10px;
     background: #f8f8f8;
     border-radius: 5px;
     margin-bottom: 5px;
+    transition: all 0.3s ease;
 }
 
-/* Schermata Composizione Email e Impostazioni */
+body.dark .event-item {
+    background: #333;
+}
+
+.event-item:hover {
+    background: #e0e0e0;
+}
+
+body.dark .event-item:hover {
+    background: #444;
+}
+
 .compose-modal,
-.settings-modal {
+.settings-modal,
+.event-modal,
+.email-preview-modal {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -349,16 +546,25 @@ body {
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 600px;
+    width: 90%;
+    max-width: 500px;
     z-index: 100;
     opacity: 0;
     pointer-events: none;
     transition: all 0.5s ease;
 }
 
+body.dark .compose-modal,
+body.dark .settings-modal,
+body.dark .event-modal,
+body.dark .email-preview-modal {
+    background: #222;
+}
+
 .compose-modal.active,
-.settings-modal.active {
+.settings-modal.active,
+.event-modal.active,
+.email-preview-modal.active {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     pointer-events: auto;
@@ -366,7 +572,9 @@ body {
 }
 
 .compose-header,
-.settings-header {
+.settings-header,
+.event-header,
+.email-preview-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -378,8 +586,17 @@ body {
     border-top-right-radius: 15px;
 }
 
+body.dark .compose-header,
+body.dark .settings-header,
+body.dark .event-header,
+body.dark .email-preview-header {
+    border-bottom-color: #444;
+}
+
 .compose-header h3,
-.settings-header h3 {
+.settings-header h3,
+.event-header h3,
+.email-preview-header h3 {
     font-size: 18px;
 }
 
@@ -397,8 +614,17 @@ body {
 }
 
 .compose-body,
-.settings-body {
-    padding: 20px;
+.settings-body,
+.event-body,
+.email-preview-body {
+    padding: 15px;
+}
+
+body.dark .compose-body,
+body.dark .settings-body,
+body.dark .event-body,
+body.dark .email-preview-body {
+    color: #ddd;
 }
 
 .compose-input,
@@ -406,10 +632,11 @@ body {
 .compose-text,
 .settings-body label,
 .settings-body input,
-.settings-body select {
+.settings-body select,
+.event-body input {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-family: 'Inter', sans-serif;
@@ -417,76 +644,246 @@ body {
     transition: all 0.3s ease;
 }
 
+body.dark .compose-input,
+body.dark .compose-subject,
+body.dark .compose-text,
+body.dark .settings-body input,
+body.dark .settings-body select,
+body.dark .event-body input {
+    background: #333;
+    border-color: #555;
+    color: #ddd;
+}
+
 .compose-input:focus,
 .compose-subject:focus,
 .compose-text:focus,
-.settings-body select:focus {
+.settings-body select:focus,
+.event-body input:focus {
     border-color: #000;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+body.dark .compose-input:focus,
+body.dark .compose-subject:focus,
+body.dark .compose-text:focus,
+body.dark .settings-body select:focus,
+body.dark .event-body input:focus {
+    border-color: #fff;
+}
+
 .compose-text {
-    height: 200px;
+    height: 150px;
     resize: none;
 }
 
-.settings-item {
+.settings-section {
     margin-bottom: 20px;
 }
 
+.settings-section h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+body.dark .settings-section h4 {
+    border-bottom-color: #444;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
 .settings-item label {
-    display: block;
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-weight: 500;
 }
 
-.compose-footer,
-.settings-footer {
-    padding: 15px 20px;
-    border-top: 1px solid #eee;
-    text-align: right;
+.account-section {
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 10px;
 }
 
-.send-btn,
-.save-btn {
-    background: #000;
-    color: #fff;
+body.dark .account-section {
+    background: #2a2a2a;
+}
+
+.account-info {
+    margin-bottom: 15px;
+}
+
+.account-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.account-item span {
+    font-weight: 500;
+}
+
+.account-item input {
+    width: 70%;
+}
+
+.save-account-btn,
+.logout-btn {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
     border: none;
-    padding: 10px 20px;
     border-radius: 20px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.send-btn:hover,
-.save-btn:hover {
+.save-account-btn {
+    background: #000;
+    color: #fff;
+}
+
+body.dark .save-account-btn {
+    background: #444;
+}
+
+.save-account-btn:hover {
     background: #333;
     transform: scale(1.05);
 }
 
-/* Responsive Design */
+body.dark .save-account-btn:hover {
+    background: #555;
+}
+
+.logout-btn {
+    background: #ff4444;
+    color: #fff;
+}
+
+.logout-btn:hover {
+    background: #cc0000;
+}
+
+.compose-footer,
+.settings-footer,
+.event-footer,
+.email-preview-footer {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    text-align: right;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+body.dark .compose-footer,
+body.dark .settings-footer,
+body.dark .event-footer,
+body.dark .email-preview-footer {
+    border-top-color: #444;
+}
+
+.send-btn,
+.save-btn,
+.add-event-btn,
+.delete-btn,
+.reply-btn,
+.ai-reply-btn {
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.send-btn,
+.save-btn,
+.add-event-btn,
+.reply-btn {
+    background: #000;
+    color: #fff;
+}
+
+body.dark .send-btn,
+body.dark .save-btn,
+body.dark .add-event-btn,
+body.dark .reply-btn {
+    background: #444;
+}
+
+.send-btn:hover,
+.save-btn:hover,
+.add-event-btn:hover,
+.reply-btn:hover {
+    background: #333;
+    transform: scale(1.05);
+}
+
+body.dark .send-btn:hover,
+body.dark .save-btn:hover,
+body.dark .add-event-btn:hover,
+body.dark .reply-btn:hover {
+    background: #555;
+}
+
+.delete-btn {
+    background: #ff4444;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background: #cc0000;
+}
+
+.ai-reply-btn {
+    background: #1e90ff;
+    color: #fff;
+}
+
+.ai-reply-btn:hover {
+    background: #1c86ee;
+}
+
+.email-preview-body p {
+    margin-bottom: 10px;
+}
+
 @media (max-width: 768px) {
     .main-app {
         max-width: 100%;
-        padding: 5px;
+        padding: 1px;
     }
 
     .app-title {
         font-size: 24px;
     }
 
+    .app-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-bar {
+        max-width: 100%;
+    }
+
     .compose-btn,
     .settings-btn {
         padding: 8px 10px;
         font-size: 14px;
-    }
-
-    .compose-btn svg,
-    .settings-btn svg {
-        width: 14px;
-        height: 14px;
     }
 
     .email-nav ul {
@@ -535,17 +932,36 @@ body {
     }
 
     .compose-modal,
-    .settings-modal {
-        max-width: 90%;
+    .settings-modal,
+    .event-modal,
+    .email-preview-modal {
+        max-width: 95%;
+    }
+
+    .account-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .account-item input {
+        width: 100%;
+    }
+
+    .settings-body {
+        padding: 10px;
+    }
+
+    .settings-section {
+        margin-bottom: 15px;
+    }
+
+    .settings-item {
+        margin-bottom: 10px;
     }
 }
 
 @media (max-width: 480px) {
-    .app-header {
-        flex-direction: column;
-        gap: 10px;
-    }
-
     .header-actions {
         width: 100%;
         justify-content: space-between;
@@ -553,7 +969,6 @@ body {
 
     .email-header {
         display: none;
-        /* Nascondi l'intestazione su mobile */
     }
 
     .email-item {
@@ -570,10 +985,6 @@ body {
         text-align: left;
     }
 
-    .email-time {
-        text-align: left;
-    }
-
     .calendar-grid {
         grid-template-columns: repeat(7, 1fr);
     }
@@ -583,9 +994,19 @@ body {
         padding: 3px;
         font-size: 12px;
     }
+
+    .email-preview-footer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .delete-btn,
+    .reply-btn,
+    .ai-reply-btn {
+        width: 100%;
+    }
 }
 
-/* Animazioni */
 @keyframes fadeIn {
     0% {
         opacity: 0;
