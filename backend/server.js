@@ -1,35 +1,38 @@
-// backend/server.js
-
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors'; // per abilitare CORS
-import EmailService from './services/emailService.js'; // Assicurati che l'importazione sia corretta
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import emailController from './controllers/emailController.js';
 
 dotenv.config();
 
 const app = express();
-const emailService = new EmailService(); // Crea un'istanza del servizio email
 
-app.use(cors()); // Abilita CORS
-app.use(express.json());
-
-// Definisci la route per ottenere le email
-app.get('/emails', async (req, res) => {
-    try {
-        const emails = await emailService.getEmails();  // Ottieni le email dal servizio
-        res.status(200).json({
-            status: "success",
-            data: emails
-        });
-    } catch (error) {
-        res.status(500).json({
-            status: "error",
-            message: error.message
-        });
-    }
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+    next();
 });
 
-// Avvia il server
+
+app.use(cors());
+app.use(express.json());
+
+// Path assoluto alla root del progetto
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const frontendPath = path.join(__dirname, '../frontend');
+
+app.use(express.static(frontendPath));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+app.get('/api/emails', emailController.getEmails);
+app.post('/api/emails/sync', emailController.syncEmails);
+
 const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {
     console.log(`Server avviato su http://localhost:${PORT}`);

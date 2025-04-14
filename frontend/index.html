@@ -9,9 +9,14 @@
 <body>
     <h1>Le tue Email</h1>
 
-    <!-- Container che conterrà le email -->
     <div id="emails-container"></div>
 
-    <script src="scripts/index.js"></script>
+    <button id="authorize-button">Autenticati con Google</button>
+    <button id="sync-button" disabled>Sincronizza Email</button>
+
+    <div id="email-list"></div>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="scripts/email.js"></script>
 </body>
 </html>

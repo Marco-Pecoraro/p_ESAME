@@ -1,3 +1,4 @@
+// backend/services/emailService.js
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
 import MongoDB from './mongodb.js';
@@ -22,7 +23,6 @@ class EmailService {
             'http://localhost:8888/oauth2callback'
         );
 
-        // Usa i token ottenuti durante l'autenticazione
         oAuth2Client.setCredentials({
             access_token: process.env.GMAIL_ACCESS_TOKEN,
             refresh_token: process.env.GMAIL_REFRESH_TOKEN,
@@ -31,7 +31,7 @@ class EmailService {
         const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
         const res = await gmail.users.messages.list({
             userId: 'me',
-            q: 'is:unread', // Ottieni le email non lette
+            q: 'is:unread',
         });
 
         const newEmails = res.data.messages || [];

@@ -7,7 +7,6 @@ let tokenClient;
 let gapiInited = false;
 let gisInited = false;
 
-// Init GAPI
 function gapiLoaded() {
     gapi.load('client', async () => {
         await gapi.client.init({
@@ -19,14 +18,12 @@ function gapiLoaded() {
     });
 }
 
-// Init OAuth
 function gisLoaded() {
     tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
         callback: async (tokenResponse) => {
             sessionStorage.setItem("gt", tokenResponse.access_token);
-            await fetchEmailsAndSendToServer();
         }
     });
     gisInited = true;
@@ -39,7 +36,6 @@ function maybeEnableButtons() {
     }
 }
 
-// Autenticazione
 document.getElementById("authorize-button").onclick = () => {
     const token = sessionStorage.getItem("gt");
     if (!token) {
@@ -50,66 +46,20 @@ document.getElementById("authorize-button").onclick = () => {
     }
 };
 
-// FETCH EMAILS & INVIA A SERVER
-async function fetchEmailsAndSendToServer() {
-    try {
-        const res = await gapi.client.gmail.users.messages.list({
-            userId: 'me',
-            maxResults: 10,
-        });
+document.getElementById("sync-button").onclick = async () => {
+    const token = sessionStorage.getItem("gt");
+    if (!token) return alert("Autenticati prima");
+    await fetch("http://localhost:8888/api/emails/sync", { method: "POST" });
+    await loadEmailsToPage();
+};
 
-        const messages = res.result.messages || [];
-
-        for (const msg of messages) {
-            const detail = await gapi.client.gmail.users.messages.get({
-                userId: 'me',
-                id: msg.id,
-            });
-
-            const headers = detail.result.payload.headers;
-            const subject = headers.find(h => h.name === "Subject")?.value || "";
-            const from = headers.find(h => h.name === "From")?.value || "";
-            const date = headers.find(h => h.name === "Date")?.value || "";
-            const body = getBody(detail.result.payload);
-
-            const emailData = {
-                subject,
-                from,
-                date,
-                body,
-            };
-
-            await fetch("http://localhost:8888/api/emails", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(emailData),
-            });
-        }
-
-        alert("Email sincronizzate!");
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-function getBody(payload) {
-    if (!payload.parts) {
-        return atob(payload.body.data || "");
-    }
-
-    const part = payload.parts.find(p => p.mimeType === "text/plain");
-    return atob(part?.body?.data || "");
-}
-
-// Carica email dal server e visualizza
 async function loadEmailsToPage() {
     try {
         const res = await fetch("http://localhost:8888/api/emails");
-        const emails = await res.json();
-
-        const list = document.getElementById("email-list");
+        const json = await res.json();
+        const emails = json.data;
+        const list = document.getElementById("emails-container");
         list.innerHTML = "";
-
         emails.forEach(email => {
             const item = document.createElement("div");
             item.classList.add("email-item");
@@ -122,7 +72,6 @@ async function loadEmailsToPage() {
             `;
             list.appendChild(item);
         });
-
     } catch (err) {
         console.error("Errore nel caricamento email:", err);
     }

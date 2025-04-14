@@ -1,6 +1,18 @@
-// frontend/scripts/index.js
-document.addEventListener('load', function () {
+document.addEventListener('DOMContentLoaded', function () {
     fetchEmails();
+
+    document.getElementById("sync-button").addEventListener("click", async () => {
+        try {
+            const response = await fetch("http://localhost:8888/api/emails/sync", {
+                method: "POST",
+            });
+            const result = await response.json();
+            alert(`Sincronizzate ${result.count} email`);
+            fetchEmails(); // Ricarica
+        } catch (err) {
+            console.error("Errore durante la sincronizzazione:", err);
+        }
+    });
 });
 
 async function fetchEmails() {
@@ -15,7 +27,7 @@ async function fetchEmails() {
 
 function displayEmails(emails) {
     const emailsContainer = document.getElementById('emails-container');
-    emailsContainer.innerHTML = "";  // Clear the container
+    emailsContainer.innerHTML = "";  // Clear
 
     emails.forEach(email => {
         const emailDiv = document.createElement('div');

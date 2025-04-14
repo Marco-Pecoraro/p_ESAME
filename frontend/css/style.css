@@ -39,3 +39,20 @@ h1 {
     border: 0;
     border-top: 1px solid #ddd;
 }
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
